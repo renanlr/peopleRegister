@@ -1,10 +1,37 @@
 <!DOCTYPE html>
 <html>
 <head>
-<meta charset="UTF-8">
-<title>TESTE</title>
+    <title>Cadastro Pessoas</title>
+    <link rel="stylesheet" type="text/css" href="/libs/components/bootstrap/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/libs/css/app.css"/>
+
 </head>
-<body>
-<h1>Hello World!</h1>
+<body ng-app="app">
+
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">Cadastro Pessoas</a>
+            </div>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/">Pessoa</a></li>
+                <li><a href="/#!/sobre">Sobre</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div ng-view></div>
+    </div>
+
+    <script src="/libs/components/angular/angular.min.js"></script>
+    <script src="/libs/components/angular-route/angular-route.min.js"></script>
+    <script src="/libs/components/angular-messages/angular-messages.min.js"></script>
+
+    <script src="/util/route.js"></script>
+    <script src="/services/authentication.service.js"></script>
+    <script src="/controller/pessoaController.js"></script>
+    <script src="/spas/login/login.controller.js"></script>
 </body>
 </html>
