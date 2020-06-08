@@ -20,14 +20,15 @@
         }
 
         function login() {
-            console.log('Vou chamar o service de login');
-            console.log(AuthenticationService);
             vm.loading = true;
+            vm.errors = [];
             AuthenticationService.Login(vm.username, vm.password, function (result, response) {
-                if (result === true) {
-                    $location.path('/');
+                if (result) {
+                    if(response.data.profile === 'ADMINISTRADOR'){
+                        $location.path('/operadores');
+                    }
                 } else {
-                    vm.error = 'Username or password is incorrect';
+                    vm.errors = response.data.mensagens;
                     vm.loading = false;
                 }
             });

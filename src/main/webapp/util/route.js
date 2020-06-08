@@ -3,8 +3,14 @@ angular.module('app', ['ngRoute', 'ngMessages'])
 
         $routeProvider
             .when('/', {
-                templateUrl : '/spas/login/login.view.html',
+                templateUrl : '/spas/login/index.view.html',
                 controller: 'LoginController',
+                controllerAs: 'vm'
+            })
+
+            .when('/operators', {
+                templateUrl : '/spas/operators/index.view.html',
+                controller: 'OperatorsController',
                 controllerAs: 'vm'
             })
 
