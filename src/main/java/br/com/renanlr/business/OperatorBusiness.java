@@ -33,7 +33,7 @@ public class OperatorBusiness {
 		if (operator.getProfile().equals(Profile.ADMINISTRADOR)) {
 			throw new BusinessException("Não é possível criar operador com perfil ADMINISTRADOR");
 		}
-		if (!operatorDao.getOperatorByLogin(operator.getLogin()).isEmpty()) {
+		if (!operatorDao.findByLogin(operator.getLogin()).isEmpty()) {
 			throw new BusinessException("Login indisponível");
 		}
 		operatorDao.saveOperator(operator);

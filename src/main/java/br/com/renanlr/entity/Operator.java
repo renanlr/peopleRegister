@@ -44,6 +44,9 @@ public class Operator {
 	@Column(name = "register_date")
 	private Date registerDate;
 	
+	@Column
+	private String token;
+	
 	@PrePersist
 	void registerDate() {
 		this.registerDate = new Date();
@@ -95,6 +98,14 @@ public class Operator {
 
 	public void setRegisterDate(Date registerDate) {
 		this.registerDate = registerDate;
+	}
+
+	public String getToken() {
+		return token;
+	}
+
+	public void setToken(String token) {
+		this.token = token;
 	}
 
 	

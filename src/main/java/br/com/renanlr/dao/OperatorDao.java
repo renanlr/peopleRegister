@@ -33,17 +33,40 @@ public class OperatorDao {
 		return entityManager.merge(operator);
 	}
 	
-	public List<Operator> getOperatorByLogin(String login){
+	public List<Operator> findByLogin(String login){
 		Query query = entityManager.createQuery(
 				"select o from Operator o where o.login =:login", 
 				Operator.class);
 		query.setParameter("login", login);
 		return query.getResultList();
 	}
+	
+	public List<Operator> authenticateOperator(String login, String password){
+		Query query = entityManager.createQuery(
+				"select o from Operator o where o.login =:login and o.password =:password", 
+				Operator.class);
+		query.setParameter("login", login);
+		query.setParameter("password", password);
+		return query.getResultList();
+	}
 
 	public void deleteOperator(Long id) {
 		Operator operator = this.findById(id);
 		entityManager.remove(operator);
+	}
+
+	public List<Operator> checkToken(String login, String token) {
+		Query query = entityManager.createQuery(
+				"select o from Operator o where o.login =:login and o.token =:token", 
+				Operator.class);
+		query.setParameter("login", login);
+		query.setParameter("token", token);
+		return query.getResultList();
+	}
+
+	public void deleteToken(Operator operator) {
+		operator.setToken(null);
+		entityManager.merge(operator);
 	}
 
 }

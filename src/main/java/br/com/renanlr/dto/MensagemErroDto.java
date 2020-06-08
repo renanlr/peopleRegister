@@ -1,5 +1,6 @@
 package br.com.renanlr.dto;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -28,6 +29,16 @@ public class MensagemErroDto {
 	public static MensagemErroDto build(List<String> mensagem) {
 		MensagemErroDto mensagemErroDto = new MensagemErroDto();
 		mensagemErroDto.setMensagens(mensagem);
+		mensagemErroDto.setDataErro(new Date());
+		
+		return mensagemErroDto;
+	}
+	
+	public static MensagemErroDto build(String mensagem) {
+		MensagemErroDto mensagemErroDto = new MensagemErroDto();
+		ArrayList<String> mensagens = new ArrayList<String>();
+		mensagens.add(mensagem);
+		mensagemErroDto.setMensagens(mensagens);
 		mensagemErroDto.setDataErro(new Date());
 		
 		return mensagemErroDto;
