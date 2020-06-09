@@ -34,7 +34,7 @@ public class OperatorBusiness {
 			throw new BusinessException("Não é possível criar operador com perfil ADMINISTRADOR");
 		}
 		if (!operatorDao.findByLogin(operator.getLogin()).isEmpty()) {
-			throw new BusinessException("Login indisponível");
+			throw new BusinessException("O login escolhido ja está sendo utilizado por outro operador");
 		}
 		operatorDao.saveOperator(operator);
 	}
@@ -55,15 +55,12 @@ public class OperatorBusiness {
 		if (alteredOperator.getLogin() != null) {
 			throw new BusinessException("O login não pode ser alterado.");
 		}
-		if (alteredOperator.getName() != null) {
-			operator.setName(alteredOperator.getName());
+		if (operator.getProfile() == Profile.ADMINISTRADOR) {
+			throw new BusinessException("O operador ADMINISTRADOR não pode ser editado.");
 		}
-		if (alteredOperator.getPassword() != null) {
-			operator.setPassword(alteredOperator.getPassword());
-		}
-		if (alteredOperator.getProfile() != null) {
-			operator.setProfile(alteredOperator.getProfile());
-		}
+		operator.setName(alteredOperator.getName());
+		operator.setPassword(alteredOperator.getPassword());
+		operator.setProfile(alteredOperator.getProfile());
 		
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
