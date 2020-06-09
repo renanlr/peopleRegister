@@ -100,6 +100,7 @@
             <th>Login</th>
             <th>Perfil</th>
             <th>Senha</th>
+            <th>Data de Registro</th>
             <th></th>
         </tr>
         </thead>
@@ -123,6 +124,7 @@
                     class="btn btn-default" ng-click="vm.showHidePassword(operator.id)">Show/Hide</button>
                 <input ng-show="operator.edit" type="password" ng-model="operator.editOperator.password">
             </td>
+            <td>{{operator.registerDate}}</td>
             <td>
                 <button ng-hide="operator.edit" type="button" class="btn btn-primary" ng-click="vm.startCancelEdit(operator.id)">Editar</button>
                 <button ng-hide="operator.edit" type="button" class="btn btn-danger" ng-click="vm.remove(operator.id)">Excluir</button>

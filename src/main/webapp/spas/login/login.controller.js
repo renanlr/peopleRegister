@@ -26,6 +26,8 @@
                 if (result) {
                     if(response.data.profile === 'ADMINISTRADOR'){
                         $location.path('/operators');
+                    } else {
+                        $location.path('/persons');
                     }
                 } else {
                     vm.errors = response.data.mensagens;
