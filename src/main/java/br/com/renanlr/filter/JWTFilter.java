@@ -2,6 +2,7 @@ package br.com.renanlr.filter;
 
 import java.io.IOException;
 
+import javax.inject.Inject;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
@@ -11,6 +12,13 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+
+import br.com.renanlr.business.AuthorizationBusiness;
+import br.com.renanlr.dto.MensagemErroDto;
+import br.com.renanlr.entity.Operator;
+import br.com.renanlr.enums.Profile;
+import br.com.renanlr.exception.UnauthorizedException;
 import br.com.renanlr.util.JWTUtil;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jws;
@@ -20,6 +28,9 @@ public class JWTFilter implements Filter{
 	
 	@Override
     public void init(FilterConfig filterConfig) throws ServletException {}
+	
+	@Inject
+	private AuthorizationBusiness authorizationBusiness;
 	
 	@Override
 	public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
@@ -35,17 +46,48 @@ public class JWTFilter implements Filter{
 
 	    if(token == null || token.trim().isEmpty()){
 	        res.setStatus(401);
+	        String json = new ObjectMapper().writeValueAsString(MensagemErroDto.build("Nao autorizado"));
+	        res.getWriter().write(json);
+	        res.flushBuffer();
 	        return;
-	    }
+	    } 
+	    
 
 	    try {
-	        Jws<Claims> parser = JWTUtil.decode(token);
+	    	Operator operator = authorizationBusiness.checkToken(token);
+	    	if(!checkResourceAccess(operator.getProfile(), req)) {
+	    		throw new UnauthorizedException();
+	    	}
 	        filterChain.doFilter(servletRequest, servletResponse);
-	    } catch (SignatureException e) {
-	        res.setStatus(401);
+	    } catch (SignatureException | UnauthorizedException e) {
+	    	res.setStatus(401);
+	    	String json = new ObjectMapper().writeValueAsString(MensagemErroDto.build("Nao autorizado"));
+	        res.getWriter().write(json);
+	        res.flushBuffer();
 	    }
 
 	}
+	
+	private boolean checkResourceAccess(Profile profile, HttpServletRequest req) {
+		
+		if(profile == Profile.ADMINISTRADOR) {
+			return req.getRequestURI().startsWith("/api/login") ||
+					req.getRequestURI().startsWith("/api/me") ||
+					req.getRequestURI().startsWith("/api/logout") ||
+					req.getRequestURI().startsWith("/api/operator");
+		} else if(profile == Profile.GERENTE) {
+			return req.getRequestURI().startsWith("/api/login") ||
+					req.getRequestURI().startsWith("/api/me") ||
+					req.getRequestURI().startsWith("/api/logout") ||
+					req.getRequestURI().startsWith("/api/person");
+		} else {
+			return req.getRequestURI().startsWith("/api/login") ||
+					req.getRequestURI().startsWith("/api/me") ||
+					(req.getRequestURI().startsWith("/api/person") && "GET".equals(req.getMethod())) ||
+					req.getRequestURI().startsWith("/api/logout");
+		}
+	}
+	
 	
 	@Override
     public void destroy() {}
