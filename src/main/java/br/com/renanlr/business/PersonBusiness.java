@@ -18,6 +18,9 @@ import br.com.renanlr.enums.Profile;
 import br.com.renanlr.exception.BusinessException;
 import br.com.renanlr.interceptor.Logger;
 import br.com.renanlr.util.CpfCnpjUtil;
+import br.com.renanlr.util.JWTUtil;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 
 @Stateless
 @Logger
@@ -30,13 +33,15 @@ public class PersonBusiness {
 		return personDao.listPersons();
 	}
 
-	public void savePerson(@Valid Person person) throws BusinessException {
+	public void savePerson(@Valid Person person, String token) throws BusinessException {
 		if (!CpfCnpjUtil.isValid(person.getDocument())) {			
 			throw new BusinessException("Número do Documento Inválido.");
 		}
-		if (!personDao.getPersonByDocument(person.getDocument()).isEmpty()) {
-			throw new BusinessException("Login indisponível");
-		}
+		
+		Jws<Claims> jws = JWTUtil.decode(token);
+		String login = jws.getBody().getSubject();
+		person.setOperatorLogin(login);
+		
 		personDao.savePerson(person);
 	}
 
