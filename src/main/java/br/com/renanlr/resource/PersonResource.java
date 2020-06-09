@@ -15,7 +15,6 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import br.com.renanlr.business.PersonBusiness;
-import br.com.renanlr.dto.PersonDto;
 import br.com.renanlr.entity.Person;
 import br.com.renanlr.exception.BusinessException;
 
@@ -28,7 +27,7 @@ public class PersonResource {
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response listPersons() {
-		List<PersonDto> persons = PersonDto.build(personBusiness.listPersons());
+		List<Person> persons = personBusiness.listPersons();
 		return Response.ok(persons).build();
 	}
 	
@@ -36,7 +35,7 @@ public class PersonResource {
 	@Path("{id}")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response findPerson(@PathParam("id") Long id) throws BusinessException {
-		PersonDto person = PersonDto.build(personBusiness.findPerson(id));
+		Person person = personBusiness.findPerson(id);
 		return Response.ok(person).build();
 	}
 	
