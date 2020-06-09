@@ -1,15 +1,18 @@
 package br.com.renanlr.entity;
 
-import java.sql.Date;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PastOrPresent;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import br.com.renanlr.enums.PersonType;
 
@@ -32,8 +35,9 @@ public class Person {
 	private String document;
 	
 	@Column(name="birth_date")
-	@NotBlank(message="{person.birth.date.vazio}")
+	@NotNull(message="{person.birth.date.vazio}")
 	@PastOrPresent(message="{person.birth.date.past}")
+	@JsonFormat(pattern="dd/MM/yyyy")
 	private Date birthDate;
 	
 	@Column(name="mother_name")
@@ -47,19 +51,20 @@ public class Person {
 	private String fatherName;
 	
 	@Column(name = "register_date")
+	@JsonFormat(pattern="dd/MM/yyyy")
 	private Date registerDate;
 	
 	@Column(name="operator_login")
 	private String operatorLogin;
 
 	@Column(name="person_type")
+	@NotNull(message="{}")
 	private PersonType personType;
 	
 	
 	@PrePersist
 	void registerDate() {
-		java.util.Date dt = new java.util.Date();
-		this.registerDate = new Date(dt.getTime());
+		this.registerDate = new Date();
 	}
 
 

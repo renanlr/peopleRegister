@@ -1,6 +1,6 @@
 package br.com.renanlr.entity;
 
-import java.sql.Date;
+import java.util.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -11,6 +11,8 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Size;
+
+import com.fasterxml.jackson.annotation.JsonFormat;
 
 import br.com.renanlr.enums.TelephoneType;
 
@@ -39,6 +41,7 @@ public class Telephone {
 	private Person person;
 	
 	@Column(name = "register_date")
+	@JsonFormat(pattern="dd/MM/yyyy")
 	private Date registerDate;
 	
 	@Column(name="operator_login")
@@ -46,8 +49,7 @@ public class Telephone {
 	
 	@PrePersist
 	void registerDate() {
-		java.util.Date dt = new java.util.Date();
-		this.registerDate = new Date(dt.getTime());
+		this.registerDate = new Date();
 	}
 	
 }
