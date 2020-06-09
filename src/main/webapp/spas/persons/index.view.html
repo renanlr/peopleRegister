@@ -137,10 +137,8 @@
             </td>
             <td>{{person.operatorLogin}}</td>
             <td>
-                <button ng-hide="person.edit" type="button" class="btn btn-primary" ng-click="vm.startCancelEdit(person.id)">Editar</button>
+                <button ng-hide="person.edit" type="button" class="btn btn-primary" ng-click="vm.startCancelEdit(person.id)">Editar/Ver</button>
                 <button ng-hide="person.edit" type="button" class="btn btn-danger" ng-click="vm.remove(person.id)">Excluir</button>
-                <button ng-show="person.edit" type="button" class="btn btn-primary" ng-click="vm.edit(person.editPerson)">Salvar</button>
-                <button ng-show="person.edit" type="button" class="btn btn-default" ng-click="vm.startCancelEdit(person.id)">Cancelar</button>
             </td>
         </tr>
         </tbody>

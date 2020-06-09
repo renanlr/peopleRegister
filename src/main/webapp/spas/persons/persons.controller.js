@@ -14,6 +14,7 @@
         vm.showHidePassword = showHidePassword;
         vm.addTelephone = addTelephone;
         vm.removeTelephone = removeTelephone;
+        vm.voltar = voltar;
         vm.person = {};
         vm.newTelephone = {};
         vm.persons = [];
@@ -85,22 +86,11 @@
         }
 
         function startCancelEdit(id) {
-            vm.errors = [];
-            vm.infos = [];
-            vm.persons = vm.persons.map((op) => {
-                if (op.id === id){
-                    op.edit = !op.edit;
-                    op.editPerson = {
-                        id:op.id,
-                        name:op.name,
-                        profile:op.profile,
-                        password:op.password
-                    }
-                } else {
-                    op.edit = false;
-                }
-                return op;
-            });
+            $location.path('/persons/'+id);
+        }
+
+        function voltar() {
+            $location.path('/persons/');
         }
 
         function edit(person) {

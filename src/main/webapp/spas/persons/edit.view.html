@@ -145,10 +145,15 @@
             </div>
 
             <div class="row mt-2">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <div class="btn-group">
                         <button type="submit" ng-click="vm.edit(vm.person)" ng-disabled="form.$invalid"
                                 class="btn btn-primary">Salvar
+                        </button>
+                    </div>
+                    <div class="btn-group">
+                        <button type="submit" ng-click="vm.voltar()" ng-disabled="form.$invalid"
+                                class="btn btn-default">Voltar
                         </button>
                     </div>
                 </div>
