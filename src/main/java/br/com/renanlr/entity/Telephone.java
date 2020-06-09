@@ -1,6 +1,6 @@
 package br.com.renanlr.entity;
 
-import java.util.Date;
+import java.sql.Date;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -46,7 +46,8 @@ public class Telephone {
 	
 	@PrePersist
 	void registerDate() {
-		this.registerDate = new Date();
+		java.util.Date dt = new java.util.Date();
+		this.registerDate = new Date(dt.getTime());
 	}
 	
 }

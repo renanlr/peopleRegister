@@ -1,7 +1,6 @@
 package br.com.renanlr.entity;
 
-import java.util.Date;
-
+import java.sql.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -28,13 +27,13 @@ public class Person {
 	private String name;
 	
 	@Column
-	@Pattern(regexp="^([0-9]*)$", message="{}")
-	@NotBlank(message="{}")
+	@Pattern(regexp="^([0-9]*)$", message="{person.document.pattern}")
+	@NotBlank(message="{person.document.vazio}")
 	private String document;
 	
 	@Column(name="birth_date")
-	@NotBlank(message="{}")
-	@PastOrPresent(message="{}")
+	@NotBlank(message="{person.birth.date.vazio}")
+	@PastOrPresent(message="{person.birth.date.past}")
 	private Date birthDate;
 	
 	@Column(name="mother_name")
@@ -59,7 +58,8 @@ public class Person {
 	
 	@PrePersist
 	void registerDate() {
-		this.registerDate = new Date();
+		java.util.Date dt = new java.util.Date();
+		this.registerDate = new Date(dt.getTime());
 	}
 
 
