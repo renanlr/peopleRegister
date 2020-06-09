@@ -3,9 +3,9 @@
 
     angular
         .module('app')
-        .factory('AuthenticationService', ['$http', '$window', authenticationService]);
+        .factory('AuthenticationService', ['$http', '$localStorage', authenticationService]);
 
-    function authenticationService($http, $window) {
+    function authenticationService($http, $localStorage) {
         var service = {};
 
         service.Login = Login;
@@ -21,10 +21,10 @@
                     // login successful if there's a token in the response
                     if (response.data.token) {
                         // store username and token in local storage to keep user logged in between page refreshes
-                        $window.localStorage.currentUser = { username: username, token: response.token };
+                        $localStorage.currentUser = { username: username, token: response.data.token };
 
                         // add jwt token to auth header for all requests made by the $http service
-                        $http.defaults.headers.common.Authorization = response.token;
+                        $http.defaults.headers.common.Authorization = response.data.token;
 
                         // execute callback with true to indicate successful login
                         callback(true, response);
@@ -41,7 +41,7 @@
 
         function Logout() {
             // remove user from local storage and clear http auth header
-            delete $window.localStorage.currentUser;
+            delete $localStorage.currentUser;
             $http.defaults.headers.common.Authorization = '';
         }
     }

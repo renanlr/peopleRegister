@@ -5,7 +5,7 @@
         Login: admin<br />
         Senha: admin123
     </div>
-    <div ng-if="vm.errors" class="alert alert-danger" ng-repeat="erro in vm.errors" >{{erro}}</div>
+    <div ng-if="vm.errors" class="alert alert-danger" ng-repeat="error in vm.errors" >{{error}}</div>
     <h2>Login</h2>
     <form name="form" ng-submit="form.$valid && vm.login()" novalidate>
         <div class="form-group" ng-class="{ 'has-error': form.$submitted && form.username.$invalid }">
