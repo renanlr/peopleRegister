@@ -25,7 +25,7 @@
             AuthenticationService.Login(vm.username, vm.password, function (result, response) {
                 if (result) {
                     if(response.data.profile === 'ADMINISTRADOR'){
-                        $location.path('/operadores');
+                        $location.path('/operators');
                     }
                 } else {
                     vm.errors = response.data.mensagens;

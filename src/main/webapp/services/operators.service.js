@@ -10,6 +10,8 @@
 
         service.list = list;
         service.insert = insert;
+        service.remove = remove;
+        service.edit = edit;
 
         injectToken();
 
@@ -27,6 +29,22 @@
 
         function insert(operator, callback) {
             $http.post('/api/operator', operator).then(function(response){
+                callback(true, response.data);
+            }).catch(function (response) {
+                callback(false, response.data);
+            });
+        }
+
+        function remove(id, callback) {
+            $http.delete('/api/operator/'+id).then(function(response){
+                callback(true, response.data);
+            }).catch(function (response) {
+                callback(false, response.data);
+            });
+        }
+
+        function edit(operator, callback) {
+            $http.put('/api/operator/'+operator.id, operator).then(function(response){
                 callback(true, response.data);
             }).catch(function (response) {
                 callback(false, response.data);
