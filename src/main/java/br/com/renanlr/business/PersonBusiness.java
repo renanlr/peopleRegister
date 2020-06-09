@@ -17,6 +17,7 @@ import br.com.renanlr.entity.Person;
 import br.com.renanlr.enums.Profile;
 import br.com.renanlr.exception.BusinessException;
 import br.com.renanlr.interceptor.Logger;
+import br.com.renanlr.util.CpfCnpjUtil;
 
 @Stateless
 @Logger
@@ -30,6 +31,9 @@ public class PersonBusiness {
 	}
 
 	public void savePerson(@Valid Person person) throws BusinessException {
+		if (!CpfCnpjUtil.isValid(person.getDocument())) {			
+			throw new BusinessException("Número do Documento Inválido.");
+		}
 		if (!personDao.getPersonByDocument(person.getDocument()).isEmpty()) {
 			throw new BusinessException("Login indisponível");
 		}
