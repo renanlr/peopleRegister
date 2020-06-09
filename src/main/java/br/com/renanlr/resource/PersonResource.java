@@ -6,6 +6,7 @@ import javax.inject.Inject;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
 import javax.ws.rs.Path;
@@ -17,6 +18,9 @@ import javax.ws.rs.core.Response;
 import br.com.renanlr.business.PersonBusiness;
 import br.com.renanlr.entity.Person;
 import br.com.renanlr.exception.BusinessException;
+import br.com.renanlr.util.JWTUtil;
+import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.Jws;
 
 @Path("/person")
 public class PersonResource {
@@ -42,8 +46,8 @@ public class PersonResource {
 	@POST
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response savePerson(Person person) throws BusinessException {
-		personBusiness.savePerson(person);
+	public Response savePerson(@HeaderParam(JWTUtil.TOKEN_HEADER) String token,Person person) throws BusinessException {
+		personBusiness.savePerson(person, token);
 		return Response.status(Response.Status.CREATED).build();
 	}
 	
