@@ -2,9 +2,9 @@
     'use strict';
 
     var app = angular.module('app')
-        .controller('PersonsController', ['$location', 'PersonsService', personsController]);
+        .controller('PersonsController', ['$location', 'PersonsService', '$routeParams', personsController]);
 
-    function personsController($location, PersonsService) {
+    function personsController($location, PersonsService, $routeParams) {
 
         var vm = {};
         vm.save = save;
@@ -12,7 +12,10 @@
         vm.startCancelEdit = startCancelEdit;
         vm.edit = edit;
         vm.showHidePassword = showHidePassword;
+        vm.addTelephone = addTelephone;
+        vm.removeTelephone = removeTelephone;
         vm.person = {};
+        vm.newTelephone = {};
         vm.persons = [];
         vm.errors = [];
         vm.infos = [];
@@ -22,7 +25,11 @@
         return vm;
 
         function initController() {
-            listPersons();
+            if ($routeParams['personId']){
+                showPerson($routeParams['personId']);
+            } else {
+                listPersons();
+            }
         }
 
         function listPersons() {
@@ -39,6 +46,16 @@
             })
         }
 
+        function showPerson(id) {
+            PersonsService.show(id, function (result, response) {
+                if (result) {
+                    vm.person = response;
+                } else {
+                    vm.errors = response.mensagens;
+                }
+            })
+        }
+
         function save() {
             vm.errors = [];
             vm.infos = [];
@@ -47,7 +64,7 @@
                 if (result) {
                     vm.persons.push(newOperator);
                     vm.person = {};
-                    vm.infos.push("Operador Criado com sucesso!");
+                    vm.infos.push("Pessoa Criada com sucesso!");
                 } else {
                     vm.errors = response.mensagens;
                 }
@@ -60,7 +77,7 @@
             PersonsService.remove(id,function (result, response) {
                 if (result) {
                     vm.persons = vm.persons.filter((op) => op.id !== id);
-                    vm.infos.push("Operador removido com sucesso!");
+                    vm.infos.push("Pessoa removida com sucesso!");
                 } else {
                     vm.errors = response.mensagens;
                 }
@@ -98,7 +115,7 @@
                         }
                         return op;
                     });
-                    vm.infos.push("Operador alterado com sucesso!");
+                    vm.infos.push("Pessoa alterada com sucesso!");
                 } else {
                     vm.errors = response.mensagens;
                 }
@@ -114,12 +131,24 @@
             });
         }
 
-    }
+        function addTelephone(){
+            vm.person.telephones.push(vm.newTelephone);
+            vm.newTelephone = {};
+        }
 
-    app.filter('password', function(){
-        return function(str, show){
-            return show? str : '******';
-        };
-    });
+        function removeTelephone(index, telephone_id){
+            vm.errors = [];
+            vm.infos = [];
+            PersonsService.removeTelephone(telephone_id,function (result, response) {
+                if (result) {
+                    vm.person.telephones.splice(index, 1);
+                    vm.infos.push("Telefone removido com sucesso!");
+                } else {
+                    vm.errors = response.mensagens;
+                }
+            });
+        }
+
+    }
 
 })();

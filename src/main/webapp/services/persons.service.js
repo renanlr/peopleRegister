@@ -9,9 +9,11 @@
         var service = {};
 
         service.list = list;
+        service.show = show;
         service.insert = insert;
         service.remove = remove;
         service.edit = edit;
+        service.removeTelephone = removeTelephone;
 
         injectToken();
 
@@ -19,6 +21,14 @@
 
         function list(callback) {
             $http.get('/api/person').then(function(response){
+                callback(true, response.data);
+            }).catch(function (response) {
+                callback(false, response.data);
+            });
+        }
+
+        function show(id, callback) {
+            $http.get('/api/person/'+id).then(function(response){
                 callback(true, response.data);
             }).catch(function (response) {
                 callback(false, response.data);
@@ -41,8 +51,16 @@
             });
         }
 
-        function edit(operator, callback) {
-            $http.put('/api/person/'+operator.id, operator).then(function(response){
+        function edit(person, callback) {
+            $http.put('/api/person/'+person.id, person).then(function(response){
+                callback(true, response.data);
+            }).catch(function (response) {
+                callback(false, response.data);
+            });
+        }
+
+        function removeTelephone(id, callback) {
+            $http.delete('/api/person/telephone/'+id).then(function(response){
                 callback(true, response.data);
             }).catch(function (response) {
                 callback(false, response.data);

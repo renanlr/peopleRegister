@@ -1,7 +1,7 @@
-<h1>Pessoas</h1>
+<h1>Editar Pessoa</h1>
 
 <div class="panel panel-default">
-    <div class="panel-heading">Cadastro</div>
+    <div class="panel-heading">Editar</div>
     <div class="panel-body">
         <form name="form">
 
@@ -96,9 +96,58 @@
             </div>
 
             <div class="row mt-2">
+                <table class="table table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th>
+                            <span>DDD</span>
+                            <input placeholder="000" ng-model="vm.newTelephone.ddd">
+                        </th>
+                        <th>
+                            <span>Número</span>
+                            <input name="nome" placeholder="00000000" ng-model="vm.newTelephone.number">
+                        </th>
+                        <th>
+                            <span>Tipo</span>
+                            <select ng-model="vm.newTelephone.telephoneType">
+                                <option value="CELULAR" selected>CELULAR</option>
+                                <option value="FIXO">FIXO</option>
+                                <option value="COMERCIAL">COMERCIAL</option>
+                            </select>
+                        </th>
+                        <th>
+                            <span>Data de Cadastro</span>
+                        </th>
+                        <th>
+                            <span>Login Operador</span>
+                        </th>
+                        <th>
+                            <button type="button" class="btn btn-primary" ng-click="vm.addTelephone()">Adicionar</button>
+                        </th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr ng-hide="vm.person.telephones.length">
+                        <td colspan="6" style="text-align: center;">Sem telefones Cadastrados</td>
+                    </tr>
+                    <tr ng-repeat="telephone in vm.person.telephones">
+                        <td>{{telephone.ddd}}</td>
+                        <td>{{telephone.number}}</td>
+                        <td>{{telephone.telephoneType}}</td>
+                        <td>{{telephone.registerDate}}</td>
+                        <td>{{telephone.operatorLogin}}</td>
+                        <td>
+                            <button ng-hide="telephone.edit" type="button" class="btn btn-danger" ng-click="vm.removeTelephone($index, telephone.id)">Excluir</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="row mt-2">
                 <div class="col-md-4">
                     <div class="btn-group">
-                        <button type="submit" ng-click="vm.save()" ng-disabled="form.$invalid"
+                        <button type="submit" ng-click="vm.edit(vm.person)" ng-disabled="form.$invalid"
                                 class="btn btn-primary">Salvar
                         </button>
                     </div>
@@ -106,43 +155,4 @@
             </div>
         </form>
     </div>
-</div>
-
-<div class="row mt-5">
-    <div ng-show="!vm.persons" class="spinner-border" role="status">
-        <span class="sr-only">Loading...</span>
-    </div>
-    <table ng-show="vm.persons" class="table table-striped table-hover">
-        <thead>
-        <tr>
-            <th>Nome</th>
-            <th>Tipo de Pessoa</th>
-            <th>Documento</th>
-            <th>Data de Nascimento</th>
-            <th>Operador</th>
-            <th></th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr ng-repeat="person in vm.persons">
-            <td>
-                <span ng-hide="person.edit">{{person.name}}</span>
-                <input ng-show="person.edit" type="text" ng-model="person.editPerson.name">
-            </td>
-            <td>{{person.personType}}</td>
-            <td>{{person.document}}</td>
-            <td>
-                <span ng-hide="person.edit">{{person.birthDate}}</span>
-                <input ng-show="person.edit" type="text" ng-model="person.editPerson.birthDate">
-            </td>
-            <td>{{person.operatorLogin}}</td>
-            <td>
-                <button ng-hide="person.edit" type="button" class="btn btn-primary" ng-click="vm.startCancelEdit(person.id)">Editar</button>
-                <button ng-hide="person.edit" type="button" class="btn btn-danger" ng-click="vm.remove(person.id)">Excluir</button>
-                <button ng-show="person.edit" type="button" class="btn btn-primary" ng-click="vm.edit(person.editPerson)">Salvar</button>
-                <button ng-show="person.edit" type="button" class="btn btn-default" ng-click="vm.startCancelEdit(person.id)">Cancelar</button>
-            </td>
-        </tr>
-        </tbody>
-    </table>
 </div>

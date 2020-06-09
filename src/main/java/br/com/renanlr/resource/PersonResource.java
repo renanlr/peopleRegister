@@ -16,7 +16,9 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 import br.com.renanlr.business.PersonBusiness;
+import br.com.renanlr.business.TelephoneBusiness;
 import br.com.renanlr.entity.Person;
+import br.com.renanlr.entity.Telephone;
 import br.com.renanlr.exception.BusinessException;
 import br.com.renanlr.util.JWTUtil;
 import io.jsonwebtoken.Claims;
@@ -27,6 +29,9 @@ public class PersonResource {
 	
 	@Inject
 	private PersonBusiness personBusiness;
+	
+	@Inject
+	private TelephoneBusiness telephoneBusiness;
 	
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
@@ -55,8 +60,8 @@ public class PersonResource {
 	@Path("{id}")
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
-	public Response updatePerson(@PathParam("id") Long id, Person person) throws BusinessException {
-		Person per = personBusiness.updatePerson(id, person);
+	public Response updatePerson(@PathParam("id") Long id, @HeaderParam(JWTUtil.TOKEN_HEADER) String token, Person person) throws BusinessException {
+		Person per = personBusiness.updatePerson(id, person, token);
 		return Response.ok(per).build();
 	}
 	
@@ -65,6 +70,14 @@ public class PersonResource {
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response deletePerson(@PathParam("id") Long id) throws BusinessException {
 		personBusiness.deletePerson(id);
+		return Response.ok().build();
+	}
+	
+	@DELETE
+	@Path("/telephone/{telephone_id}")
+	@Produces(MediaType.APPLICATION_JSON)
+	public Response deleteTelephone(@PathParam("telephone_id") Long id) throws BusinessException {
+		telephoneBusiness.deleteTelephone(id);;
 		return Response.ok().build();
 	}
 

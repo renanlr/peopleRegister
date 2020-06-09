@@ -14,6 +14,7 @@ import javax.validation.ValidatorFactory;
 
 import br.com.renanlr.dao.PersonDao;
 import br.com.renanlr.entity.Person;
+import br.com.renanlr.entity.Telephone;
 import br.com.renanlr.enums.Profile;
 import br.com.renanlr.exception.BusinessException;
 import br.com.renanlr.interceptor.Logger;
@@ -28,6 +29,9 @@ public class PersonBusiness {
 
 	@Inject
 	private PersonDao personDao;
+	
+	@Inject
+	private TelephoneBusiness telephoneBusiness;
 
 	public List<Person> listPersons() {
 		return personDao.listPersons();
@@ -53,12 +57,12 @@ public class PersonBusiness {
 		return person;
 	}
 
-	public Person updatePerson(Long id, Person alteredPerson) throws BusinessException {
+	public Person updatePerson(Long id, Person alteredPerson, String token) throws BusinessException {
 		Person person = personDao.findById(id);
 		if (person == null) {
 			throw new BusinessException("Não existe pessoa com o codigo informado.");
 		}
-		if (alteredPerson.getDocument() != null) {
+		if (!person.getDocument().equals(alteredPerson.getDocument())) {
 			throw new BusinessException("O documento não pode ser alterado.");
 		}		
 		if (alteredPerson.getName() != null) {
@@ -73,6 +77,11 @@ public class PersonBusiness {
 		if (alteredPerson.getBirthDate() != null) {
 			person.setBirthDate(alteredPerson.getBirthDate());
 		}
+		if (!alteredPerson.getTelephones().isEmpty()) {
+			for(Telephone t : alteredPerson.getTelephones()) {
+				telephoneBusiness.saveTelephone(t, token, id);
+			}
+		}
 		
 		ValidatorFactory factory = Validation.buildDefaultValidatorFactory();
 		Validator validator = factory.getValidator();
@@ -85,8 +94,8 @@ public class PersonBusiness {
 	}
 
 	public void deletePerson(Long id) throws BusinessException {
-		Person Person = personDao.findById(id);
-		if (Person == null) {
+		Person person = personDao.findById(id);
+		if (person == null) {
 			throw new BusinessException("Não existe pessoa com o codigo informado.");
 		}
 		personDao.deletePerson(id);

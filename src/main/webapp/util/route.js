@@ -17,6 +17,11 @@ angular.module('app', ['ngRoute', 'ngMessages', 'ngStorage'])
                 controller: 'PersonsController',
                 controllerAs: 'vm'
             })
+            .when('/persons/:personId', {
+                templateUrl : '/spas/persons/edit.view.html',
+                controller: 'PersonsController',
+                controllerAs: 'vm'
+            })
             .when('/pessoa', {
                 templateUrl : '/pages/pessoa.html',
                 controller: 'PessoaController'

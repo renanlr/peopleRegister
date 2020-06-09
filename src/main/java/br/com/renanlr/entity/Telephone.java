@@ -2,21 +2,26 @@ package br.com.renanlr.entity;
 
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import br.com.renanlr.enums.TelephoneType;
 
 @Entity
+@JsonIgnoreProperties("person")
 public class Telephone {
 	
 	@Id
@@ -34,9 +39,10 @@ public class Telephone {
 	private String number;
 	
 	@Column(name="telephone_type")
+	@NotNull(message="{}")
 	private TelephoneType telephoneType;
 	
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "person_id", referencedColumnName = "id", nullable = false)
 	private Person person;
 	
@@ -51,5 +57,63 @@ public class Telephone {
 	void registerDate() {
 		this.registerDate = new Date();
 	}
+
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public String getDdd() {
+		return ddd;
+	}
+
+	public void setDdd(String ddd) {
+		this.ddd = ddd;
+	}
+
+	public String getNumber() {
+		return number;
+	}
+
+	public void setNumber(String number) {
+		this.number = number;
+	}
+
+	public TelephoneType getTelephoneType() {
+		return telephoneType;
+	}
+
+	public void setTelephoneType(TelephoneType telephoneType) {
+		this.telephoneType = telephoneType;
+	}
+
+	public Person getPerson() {
+		return person;
+	}
+
+	public void setPerson(Person person) {
+		this.person = person;
+	}
+
+	public Date getRegisterDate() {
+		return registerDate;
+	}
+
+	public void setRegisterDate(Date registerDate) {
+		this.registerDate = registerDate;
+	}
+
+	public String getOperatorLogin() {
+		return operatorLogin;
+	}
+
+	public void setOperatorLogin(String operatorLogin) {
+		this.operatorLogin = operatorLogin;
+	}
+	
+	
 	
 }
