@@ -45,7 +45,7 @@
             var newOperator = vm.operator;
             OperatorsService.insert(newOperator,function (result, response) {
                 if (result) {
-                    vm.operators.push(newOperator);
+                    vm.operators.push(response);
                     vm.operator = {};
                     vm.infos.push("Operador Criado com sucesso!");
                 } else {

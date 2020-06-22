@@ -1,4 +1,4 @@
-angular.module('app', ['ngRoute', 'ngMessages', 'ngStorage'])
+angular.module('app', ['ngRoute', 'ngMessages', 'ngStorage', 'app-navbar'])
     .config(function($routeProvider) {
 
         $routeProvider
@@ -21,13 +21,6 @@ angular.module('app', ['ngRoute', 'ngMessages', 'ngStorage'])
                 templateUrl : '/spas/persons/edit.view.html',
                 controller: 'PersonsController',
                 controllerAs: 'vm'
-            })
-            .when('/pessoa', {
-                templateUrl : '/pages/pessoa.html',
-                controller: 'PessoaController'
-            })
-            .when('/sobre', {
-                templateUrl : '/pages/sobre.html'
             })
             .otherwise({
                 redirectTo: '/'

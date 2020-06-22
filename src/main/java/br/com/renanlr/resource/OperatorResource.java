@@ -43,8 +43,8 @@ public class OperatorResource {
 	@Consumes(MediaType.APPLICATION_JSON)
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response saveOperator(Operator operator) throws BusinessException {
-		operatorBusiness.saveOperator(operator);
-		return Response.status(Response.Status.CREATED).build();
+		Operator op = operatorBusiness.saveOperator(operator);
+		return Response.status(Response.Status.CREATED).entity(op).build();
 	}
 	
 	@PUT

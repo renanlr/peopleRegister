@@ -25,8 +25,9 @@ public class OperatorDao {
 		return entityManager.find(Operator.class, id);
 	}
 	
-	public void saveOperator(Operator operator) {
+	public Operator saveOperator(Operator operator) {
 		entityManager.persist(operator);
+		return operator;
 	}
 	
 	public Operator updateOperator(Operator operator) {

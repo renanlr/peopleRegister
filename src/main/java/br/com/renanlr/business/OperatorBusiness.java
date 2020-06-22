@@ -29,14 +29,14 @@ public class OperatorBusiness {
 		return operatorDao.listOperators();
 	}
 
-	public void saveOperator(@Valid Operator operator) throws BusinessException {
+	public Operator saveOperator(@Valid Operator operator) throws BusinessException {
 		if (operator.getProfile().equals(Profile.ADMINISTRADOR)) {
 			throw new BusinessException("Não é possível criar operador com perfil ADMINISTRADOR");
 		}
 		if (!operatorDao.findByLogin(operator.getLogin()).isEmpty()) {
 			throw new BusinessException("O login escolhido ja está sendo utilizado por outro operador");
 		}
-		operatorDao.saveOperator(operator);
+		return operatorDao.saveOperator(operator);
 	}
 
 	public Operator findOperator(Long id) throws BusinessException {
