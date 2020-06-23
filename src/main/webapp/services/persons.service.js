@@ -69,7 +69,6 @@
 
         function injectToken(){
             var currentUser = $localStorage.currentUser;
-            console.log("currentUser", currentUser);
             if(currentUser){
                 $http.defaults.headers.common.Authorization = currentUser.token;
             }
