@@ -2,9 +2,10 @@
     'use strict';
 
     var app = angular.module('app')
-        .controller('PersonsController', ['$location', 'PersonsService', '$routeParams', personsController]);
+        .controller('PersonsController', ['$location', 'PersonsService',
+                                            '$routeParams', '$localStorage', personsController]);
 
-    function personsController($location, PersonsService, $routeParams) {
+    function personsController($location, PersonsService, $routeParams, $localStorage) {
 
         var vm = {};
         vm.save = save;
@@ -15,6 +16,7 @@
         vm.addTelephone = addTelephone;
         vm.removeTelephone = removeTelephone;
         vm.voltar = voltar;
+        vm.profile = ($localStorage.currentUser || {}).profile;
         vm.person = {};
         vm.newTelephone = {};
         vm.persons = [];
