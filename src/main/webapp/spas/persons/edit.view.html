@@ -52,7 +52,20 @@
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <div class="form-group" ng-class="{ 'has-error': form.document.$touched && form.document.$invalid}">
                         <label>Documento</label>
-                        <input name="document" class="form-control" placeholder="CPF/CNPJ" ng-model="vm.person.document"
+                        <input name="document"
+                               class="form-control"
+                               placeholder="999.999.999-99"
+                               ui-mask="999.999.999-99"
+                               ng-if="vm.person.personType === 'FISICA'"
+                               ng-model="vm.person.document"
+                               ng-maxlength="100" required>
+
+                        <input name="document"
+                               class="form-control"
+                               placeholder="99.999.999/9999-99"
+                               ui-mask="99.999.999/9999-99"
+                               ng-if="vm.person.personType === 'JURIDICA'"
+                               ng-model="vm.person.document"
                                ng-maxlength="100" required>
 
                         <div ng-messages="form.document.$error" ng-show="form.document.$touched" class="form-message-font">
@@ -64,7 +77,12 @@
                 <div class="col-sm-12 col-md-6 col-lg-4">
                     <div class="form-group" ng-class="{ 'has-error': form.birthDate.$touched && form.birthDate.$invalid}">
                         <label>Data de Nascimento</label>
-                        <input name="birthDate" class="form-control" placeholder="00/00/0000" ng-model="vm.person.birthDate"
+                        <input name="birthDate"
+                               class="form-control"
+                               placeholder="00/00/0000"
+                               ui-mask="99/99/9999"
+                               model-view-value="true"
+                               ng-model="vm.person.birthDate"
                                ng-maxlength="100" required>
 
                         <div ng-messages="form.birthDate.$error" ng-show="form.birthDate.$touched" class="form-message-font">
