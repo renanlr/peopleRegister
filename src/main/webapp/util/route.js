@@ -1,4 +1,4 @@
-angular.module('app', ['ngRoute', 'ngMessages', 'ngStorage', 'app-navbar'])
+angular.module('app', ['ngRoute', 'ngMessages', 'ngStorage', 'app-navbar', 'ui.mask'])
     .config(function($routeProvider) {
 
         $routeProvider
