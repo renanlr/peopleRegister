@@ -2,10 +2,8 @@ package br.com.renanlr.entity;
 
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -29,21 +27,21 @@ public class Telephone {
 	private Long id;
 	
 	@Column
-	@Size(min = 3, max = 3, message="{}")
-	@NotBlank(message="{}")
+	@Size(min = 3, max = 3, message="{telephone.ddd.size}")
+	@NotBlank(message="{telephone.ddd.vazio}")
 	private String ddd;
 	
 	@Column
-	@Size(min = 8, max = 10, message="{}")
-	@NotBlank(message="{}")
+	@Size(min = 8, max = 10, message="{telephone.number.size}")
+	@NotBlank(message="{telephone.number.vazio}")
 	private String number;
 	
 	@Column(name="telephone_type")
-	@NotNull(message="{}")
+	@NotNull(message="{telephone.type.empty}")
 	private TelephoneType telephoneType;
 	
-	@ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "person_id", referencedColumnName = "id", nullable = false)
+	@ManyToOne
+	@JoinColumn(name = "person_id", nullable = false)
 	private Person person;
 	
 	@Column(name = "register_date")
