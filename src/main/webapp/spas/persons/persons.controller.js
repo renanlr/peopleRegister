@@ -63,7 +63,7 @@
             var newOperator = vm.person;
             PersonsService.insert(newOperator,function (result, response) {
                 if (result) {
-                    vm.persons.push(newOperator);
+                    vm.persons.push(response);
                     vm.person = {};
                     vm.infos.push("Pessoa Criada com sucesso!");
                 } else {
@@ -98,14 +98,7 @@
             vm.infos = [];
             PersonsService.edit(person, function (result, response) {
                 if (result) {
-                    vm.persons = vm.persons.map((op) => {
-                        if (op.id === person.id){
-                            Object.assign(op, person);
-                            op.edit = false;
-                        }
-                        return op;
-                    });
-                    vm.infos.push("Pessoa alterada com sucesso!");
+                    vm.person = response;
                 } else {
                     vm.errors = response.mensagens;
                 }
@@ -126,17 +119,10 @@
             vm.newTelephone = {};
         }
 
-        function removeTelephone(index, telephone_id){
+        function removeTelephone(index){
             vm.errors = [];
             vm.infos = [];
-            PersonsService.removeTelephone(telephone_id,function (result, response) {
-                if (result) {
-                    vm.person.telephones.splice(index, 1);
-                    vm.infos.push("Telefone removido com sucesso!");
-                } else {
-                    vm.errors = response.mensagens;
-                }
-            });
+            vm.person.telephones.splice(index, 1);
         }
 
     }
