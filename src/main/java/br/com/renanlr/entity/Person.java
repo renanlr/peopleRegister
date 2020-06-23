@@ -10,7 +10,6 @@ import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.validation.constraints.NotBlank;
@@ -68,7 +67,7 @@ public class Person {
 	@NotNull(message = "{}")
 	private PersonType personType;
 
-	@OneToMany(cascade = CascadeType.ALL, mappedBy = "person", fetch = FetchType.EAGER)
+	@OneToMany(cascade = CascadeType.ALL, mappedBy = "person", orphanRemoval=true, fetch = FetchType.EAGER)
 	private List<Telephone> telephones = new ArrayList<>();
 
 	@PrePersist
@@ -153,7 +152,8 @@ public class Person {
 	}
 
 	public void setTelephones(List<Telephone> telephones) {
-		this.telephones = telephones;
+		this.telephones.clear();
+		this.telephones.addAll(telephones);
 	}
 
 }

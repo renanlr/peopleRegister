@@ -23,8 +23,9 @@ public class PersonDao {
 		return entityManager.find(Person.class, id);
 	}
 
-	public void savePerson(Person person) {
+	public Person savePerson(Person person) {
 		entityManager.persist(person);
+		return person;
 	}
 
 	public Person updatePerson(Person person) {
