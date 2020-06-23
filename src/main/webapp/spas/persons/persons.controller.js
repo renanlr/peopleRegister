@@ -99,6 +99,7 @@
             PersonsService.edit(person, function (result, response) {
                 if (result) {
                     vm.person = response;
+                    vm.infos.push("Pessoa alterada com sucesso!");
                 } else {
                     vm.errors = response.mensagens;
                 }
